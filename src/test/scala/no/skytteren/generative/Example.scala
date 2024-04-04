@@ -4,6 +4,7 @@ import verify.*
 
 object Example extends BasicTestSuite:
 
+  // Domain Models
   case class Person(
       firstName: String,
       surname: String,
@@ -18,6 +19,8 @@ object Example extends BasicTestSuite:
   )
 
   case class ZipCode(value: Int) extends AnyVal
+
+  // Domain Model Generators
 
   val address: Gen[Address] = Address(
     stress = string(between(2, 30)),

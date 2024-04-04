@@ -36,6 +36,12 @@ object GenTest extends BasicTestSuite:
     )
     assert(s == """\{<nG-!yy]fLBf=7I]U85S}2k$IVJc|]Sqz.De83.E&vz'Om!rw>92;2_Z'e-45pM""")
 
+  test("gen alphanumericString from seed"):
+    val s = fromSeed(
+      alphanumericString(64)
+    )
+    assert(s == """NAvZuGESoIJ7hbqOIsAV4iWta9qh1yp4iuhRxkraBq7ZFYeOIN8pKbyLI3gOYbIv""")
+
   test("shuffle"):
     val l = fromSeed {
       shuffle((1 to 10).toList)

@@ -59,4 +59,5 @@ def between(minInclusive: Int, maxExclusive: Int): Gen[Int] = r ?=> r.between(mi
 def between(minInclusive: Long, maxExclusive: Long): Gen[Long] = r ?=> r.between(minInclusive, maxExclusive)
 def char: Gen[Char] = r ?=> r.nextPrintableChar()
 def string(length: Int): Gen[String] = r ?=> (0 to length).map(_ => char).mkString
+def alphanumericString(length: Int): Gen[String] = r ?=> r.alphanumeric.take(length).mkString
 def shuffle[T, C](xs: IterableOnce[T])(implicit bf: BuildFrom[xs.type, T, C]): Gen[C] = r ?=> r.shuffle(xs)
