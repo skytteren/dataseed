@@ -12,23 +12,23 @@ opaque type MaxTries = Int
 object MaxTries:
   def apply(number: Int): MaxTries = number
   given default: MaxTries = 1000
-  extension (max: MaxTries) 
+  extension (max: MaxTries)
+    @targetName("lt")
     def >(value: Int): Boolean = max < value
-  
 
 extension [T](gen: Gen[T])
-  def filter(predicate: T => Boolean)(using maxTries: MaxTries): Gen[T] = r ?=> {
+  def filter(predicate: T => Boolean)(using maxTries: MaxTries): Gen[T] = r ?=>
     var i = 0
     var value = gen.apply(using r)
-    while maxTries > i do {
+    while maxTries > i do
       if predicate.apply(value) then return value
-      else {
+      else
         value = gen.apply(using r)
         i += 1
-      }
-    }
+
     throw new IllegalStateException("Too many tries")
-  }
+  end filter
+
   def map[B](f: T => B): Gen[B] = r ?=> f(gen.apply(using r))
 
   def flatMap[B](f: T => Gen[B]): Gen[B] = r ?=> f(gen.apply(using r))
@@ -37,6 +37,8 @@ extension [T](gen: Gen[T])
 
   @targetName("optional")
   def ? : Gen[Option[T]] = r ?=> Option.when(boolean)(gen)
+
+end extension
 
 def fromSeed[T](f: Gen[T], seed: Seed = 1): T = f.apply(using Random(seed))
 
