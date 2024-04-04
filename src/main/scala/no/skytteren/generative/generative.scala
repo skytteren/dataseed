@@ -11,10 +11,11 @@ type Gen[T] = Random ?=> T
 opaque type MaxTries = Int
 object MaxTries:
   def apply(number: Int): MaxTries = number
-  given default: MaxTries = 1000
   extension (max: MaxTries)
     @targetName("lt")
     def >(value: Int): Boolean = max < value
+
+given default: MaxTries = 1000
 
 extension [T](gen: Gen[T])
   def filter(predicate: T => Boolean)(using maxTries: MaxTries): Gen[T] = r ?=>

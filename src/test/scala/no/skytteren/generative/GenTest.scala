@@ -1,7 +1,5 @@
 package no.skytteren.generative
 
-import no.skytteren.generative.MaxTries.given
-
 import verify._
 
 object GenTest extends BasicTestSuite:
