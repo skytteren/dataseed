@@ -1,4 +1,4 @@
-package no.skytteren.generative
+package no.skytteren.dataseed
 
 import scala.annotation.targetName
 import scala.collection.BuildFrom
