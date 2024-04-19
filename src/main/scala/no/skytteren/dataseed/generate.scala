@@ -41,7 +41,9 @@ extension [T](gen: Gen[T])
 
 end extension
 
-def fromSeed[T](f: Gen[T], seed: Seed = 1): T = f.apply(using Random(seed))
+object Gen:
+  def apply[T](f: Gen[T], seed: Seed = 1): T = f.apply(using Random(seed))
+  def fromSeed[T](seed: Seed)(f: Gen[T]): T = f.apply(using Random(seed))
 
 def apply[T](f: Gen[T]): Gen[T] = f
 

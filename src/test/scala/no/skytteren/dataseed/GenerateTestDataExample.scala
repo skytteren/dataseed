@@ -37,12 +37,13 @@ object GenerateTestDataExample extends BasicTestSuite:
 
   test("with copy"):
 
-    val p: Person = fromSeed(person.copy(firstName = "Long John", surname = "Silver"))
+    val p: Person = Gen:
+      person.copy(firstName = "Long John", surname = "Silver")
 
     assert(p.fullName == "Long John Silver")
 
   test("new data"):
-    val p: Person = fromSeed:
+    val p: Person = Gen:
       Person(
         firstName = "Long John",
         surname = "Silver",
