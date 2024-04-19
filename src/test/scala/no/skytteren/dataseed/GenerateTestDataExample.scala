@@ -14,7 +14,7 @@ object GenerateTestDataExample extends BasicTestSuite:
     val fullName = s"$firstName $surname"
 
   case class Address(
-      stress: String,
+      street: String,
       zipCode: ZipCode,
       area: String
   )
@@ -24,7 +24,7 @@ object GenerateTestDataExample extends BasicTestSuite:
   // Domain Model Generators
 
   val address: Gen[Address] = Address(
-    stress = string(between(2, 30)),
+    street = string(between(2, 30)),
     zipCode = ZipCode(between(10000, 99999)),
     area = string(between(2, 30))
   )
@@ -47,7 +47,7 @@ object GenerateTestDataExample extends BasicTestSuite:
         firstName = "Long John",
         surname = "Silver",
         address = Address(
-          stress = string(between(2, 30)),
+          street = string(between(2, 30)),
           zipCode = ZipCode(between(10000, 99999)),
           area = string(between(2, 30))
         ),

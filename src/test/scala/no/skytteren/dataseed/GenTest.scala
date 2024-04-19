@@ -46,28 +46,28 @@ object GenTest extends BasicTestSuite:
     assert(l == List(7, 10, 8, 9, 5, 3, 1, 4, 2, 6))
 
   test("option"):
-    val o = fromSeed:
+    val o: Option[Int] = fromSeed:
       option(1)
     assert(o.contains(1))
 
   test("option 2"):
-    val s = fromSeed(
+    val o: Option[Int] = fromSeed(
       option(1),
       seed = 4096
     )
-    assert(s.isEmpty)
+    assert(o.isEmpty)
 
   test("?"):
-    val o = fromSeed:
+    val o: Option[Int] = fromSeed:
       1.?
     assert(o.contains(1))
 
   test("? 2"):
-    val s = fromSeed(
+    val o = fromSeed(
       1.?,
       seed = 4096
     )
-    assert(s.isEmpty)
+    assert(o.isEmpty)
 
   test("gen filter from seed"):
     assert(fromSeed(long) == 1853403699951111791L)

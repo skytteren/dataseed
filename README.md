@@ -1,5 +1,5 @@
 # DataSeed
-- is a little tool for generating test data for [scala|https://www.scala-lang.org].
+– is a little tool for generating test data for [scala](https://www.scala-lang.org).
 
 ## Why?
 
@@ -9,23 +9,23 @@ When explicitly stated data is used for testing it difficult to see what is impo
 
 ### Example of bad practice:
 
-```scala 
+```scala 3
 
 test("Full name"):
-// Given clutter
-val p: Person = Person(
-  firstName = "Long John",
-  surname = "Silver",
-  address = Address(
-    stress = "My street",
-    zipCode = ZipCode(12345),
-    area = "Tiny Town"
-  ),
-  phone = "555 9999"
-)
+  // Given clutter
+  val p: Person = Person(
+    firstName = "Long John",
+    surname = "Silver",
+    address = Address(
+      street = "My street",
+      zipCode = ZipCode(12345),
+      area = "Tiny Town"
+    ),
+    phone = "555 9999"
+  )
 
-//Then
-assert(p.fullName == "Long John Silver")
+  //Then
+  assert(p.fullName == "Long John Silver")
 ```
 
 There is a lot of setup data. 
@@ -37,24 +37,24 @@ The rest is just needed to be able to create `p: Person`.
 
 ### Example with good practice:
 
-```scala 
+```scala 3
 
 test("Full name"):
-// Given
-val p: Person = fromSeed:
-  Person(
-    firstName = "Long John",
-    surname = "Silver",
-    address = Address(
-      stress = string(between(2, 30)),
-      zipCode = ZipCode(between(10000, 99999)),
-      area = string(between(2, 30))
-    ),
-    phone = string(8).?
-  )
+  // Given
+  val p: Person = fromSeed:
+    Person(
+      firstName = "Long John",
+      surname = "Silver",
+      address = Address(
+        street = string(between(2, 30)),
+        zipCode = ZipCode(between(10000, 99999)),
+        area = string(between(2, 30))
+      ),
+      phone = string(8).?
+    )
 
-//Then
-assert(p.fullName == "Long John Silver")
+  //Then
+  assert(p.fullName == "Long John Silver")
 ```
 
 There is still a lot of setup. 
