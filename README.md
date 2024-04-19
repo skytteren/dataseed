@@ -43,7 +43,7 @@ The rest is just needed to be able to create `p: Person`.
 
 test("Full name"):
   // Given
-  val p: Person = fromSeed:
+  val p: Person = Gen:
     Person(
       firstName = "Long John",
       surname = "Silver",
