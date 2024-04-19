@@ -29,3 +29,5 @@ jobs:
         cache: 'sbt'
     - name: Run tests
       run: sbt test
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2.16.1
