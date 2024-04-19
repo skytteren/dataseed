@@ -1,6 +1,8 @@
 # DataSeed
 – is a little tool for generating test data for [scala](https://www.scala-lang.org).
 
+![Scala CI](https://github.com/skytteren/dataseed/actions/workflows/scala.yml/badge.svg)
+
 ## Why?
 
 Relevant test data is too often lost in the clutter.
