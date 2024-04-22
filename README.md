@@ -12,7 +12,6 @@ When explicitly stated data is used for testing it difficult to see what is impo
 ### Example of bad practice:
 
 ```scala 3
-
 test("Full name"):
   // Given clutter
   val p: Person = Person(
@@ -40,7 +39,6 @@ The rest is just needed to be able to create `p: Person`.
 ### Example with good practice:
 
 ```scala 3
-
 test("Full name"):
   // Given
   val p: Person = Gen:
