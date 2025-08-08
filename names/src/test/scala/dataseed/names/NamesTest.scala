@@ -23,5 +23,3 @@ object NamesTest extends BasicTestSuite:
     val name = Gen:
       probablyMaleName
     assert(name == "Vetle")
-
-

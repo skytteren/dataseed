@@ -1,6 +1,5 @@
-package dataseed.names
-
-import dataseed.{Gen, between}
+package dataseed
+package names
 
 import scala.math.Numeric.Implicits.infixNumericOps
 

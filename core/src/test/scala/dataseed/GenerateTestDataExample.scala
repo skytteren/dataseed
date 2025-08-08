@@ -56,4 +56,3 @@ object GenerateTestDataExample extends BasicTestSuite:
       )
 
     assert(p.fullName == "Long John Silver")
-

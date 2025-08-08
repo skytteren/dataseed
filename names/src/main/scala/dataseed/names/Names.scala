@@ -1,6 +1,5 @@
-package dataseed.names
-
-import dataseed.*
+package dataseed
+package names
 
 type Count = Int
 
