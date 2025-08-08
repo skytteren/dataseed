@@ -1,18 +1,31 @@
-scalaVersion := "3.4.1"
+import scala.collection.Seq
 
-ThisBuild / libraryDependencies += "com.eed3si9n.verify" %% "verify" % "1.0.0" % Test
-//ThisBuild / libraryDependencies += "org.apache.calcite" % "calcite-core" % "1.36.0"
-
-ThisBuild / testFrameworks += new TestFramework("verify.runner.Framework")
-
-ThisBuild / scalacOptions ++= Seq(
-  "-encoding",
-  "utf8", // Option and arguments on same line
-  "-deprecation",
-  "-unchecked",
-  "-language:implicitConversions",
-  "-language:experimental",
-  "-language:higherKinds",
-  "-language:existentials",
-  "-language:postfixOps"
+val commonSettings = Seq(
+  scalaVersion := "3.7.2",
+  scalacOptions ++= Seq(
+    "-encoding",
+    "utf8", // Option and arguments on same line
+    "-deprecation",
+    "-unchecked",
+    "-language:implicitConversions",
+    "-language:higherKinds",
+    "-language:existentials",
+    "-language:postfixOps"
+  ),
+  libraryDependencies += "com.eed3si9n.verify" %% "verify" % "1.0.0" % Test,
+  testFrameworks += new TestFramework("verify.runner.Framework")
 )
+val core: Project = project
+  .settings(commonSettings)
+
+val names: Project = project
+  .dependsOn(core)
+  .settings(commonSettings)
+
+val root: Project = project
+  .in(file("."))
+  .settings(commonSettings)
+  .aggregate(
+    core,
+    names
+  )

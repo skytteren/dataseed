@@ -1,6 +1,6 @@
-package no.skytteren.dataseed
+package dataseed
 
-import verify._
+import verify.*
 
 object GenTest extends BasicTestSuite:
   test("gen int from seed"):
@@ -77,9 +77,9 @@ object GenTest extends BasicTestSuite:
     assert(l2 == -3831662765844904176L)
 
   test("gen map from seed"):
-    val i = Gen:
+    val d = Gen:
       double.map(_.toInt)
-    assert(i == -2147483648)
+    assert(d == -2147483648)
 
   test("gen flatMap from seed"):
     val i = Gen:
@@ -102,12 +102,12 @@ object GenTest extends BasicTestSuite:
     assert(i == 16)
 
   test("gen between for double"):
-    val i: Double = Gen:
+    val d: Double = Gen:
       between(1d, 100d)
 
-    assert(i == 73.3569408796258d)
+    assert(d == 73.3569408796258d)
 
   test("gen between for long"):
-    val i: Long = Gen:
+    val l: Long = Gen:
       between(1L, 100L)
-    assert(i == 16L)
+    assert(l == 16L)

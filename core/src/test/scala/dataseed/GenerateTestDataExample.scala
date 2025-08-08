@@ -1,4 +1,4 @@
-package no.skytteren.dataseed
+package dataseed
 
 import verify.*
 

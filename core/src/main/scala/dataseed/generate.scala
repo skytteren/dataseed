@@ -1,4 +1,4 @@
-package no.skytteren.dataseed
+package dataseed
 
 import scala.annotation.targetName
 import scala.collection.BuildFrom
@@ -34,7 +34,7 @@ extension [T](gen: Gen[T])
 
   def flatMap[B](f: T => Gen[B]): Gen[B] = r ?=> f(gen.apply(using r))
 
-  def generate(using r: Random): T = gen
+  def generate(using Random): T = gen
 
   @targetName("optional")
   def ? : Gen[Option[T]] = r ?=> Option.when(boolean)(gen)
@@ -63,3 +63,5 @@ def char: Gen[Char] = r ?=> r.nextPrintableChar()
 def string(length: Int): Gen[String] = r ?=> (0 to length).map(_ => char).mkString
 def alphanumericString(length: Int): Gen[String] = r ?=> r.alphanumeric.take(length).mkString
 def shuffle[T, C](xs: IterableOnce[T])(implicit bf: BuildFrom[xs.type, T, C]): Gen[C] = r ?=> r.shuffle(xs)
+def oneOf[A](xs: Seq[A]): Gen[A] = xs(between(0, xs.size))
+def listOf[A](gen: Gen[A], min: Int = 0, max: Int = 5): Gen[List[A]] = List.fill(between(min, max))(gen)
