@@ -5,12 +5,9 @@
 
 ## Why?
 
-Relevant test data is too often lost in the clutter.
-
-When explicitly stated data is used for testing it difficult to see what is important for a given scenario.
+Because relevant test data is too often lost in the clutter of all the setup code.
 
 ### Example of bad practice:
-
 
 ```scala 3
 test("Full name"):
@@ -31,15 +28,15 @@ test("Full name"):
 ```
 
 There is a lot of setup data. 
-To distinguish the important setup data from the need clutter is difficult to see by first glans. 
-`firstName = "Long John"` and `surname = "Silver"` is important. 
+Distinguishing the important setup data from the need clutter is difficult at first glans. 
+Only `firstName = "Long John"` and `surname = "Silver"` is important. 
 The rest is just needed to be able to create `p: Person`.
 
 ## What? 
 
 ... does it do? 
 It focuses tests on the important parts of the setup data.
-The rest of the data is randomly generate stuff that nobody should care about.
+The rest of the data is randomly generated stuff that nobody should care about.
 
 ### Example with good practice:
 
@@ -100,3 +97,13 @@ val p: Person = Gen.fromSeed(seed = 12345): // generate
     phone = string(8).?
   )
 ```
+
+## RELEASE
+
+There is no release at the moment as all the important stuff is in 
+[core/src/main/scala/dataseed/generate.scala]([core/src/main/scala/dataseed/generate.scala]).
+It is less than 100 lines of code, and should stay that way.
+
+So if you want to use it, copy the file and make your own adjustments.
+
+The [names](names) subproject is just a playroom for generating names. 
