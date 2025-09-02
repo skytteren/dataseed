@@ -45,7 +45,6 @@ extension [T](gen: Gen[T])
 end extension
 
 object Gen:
-  def apply[T: Generator as gen]: T = Gen.apply(gen.apply)
   def apply[T](f: Gen[T], seed: Seed = 1): T = f.apply(using Random(seed))
   def fromSeed[T](seed: Seed)(f: Gen[T]): T = f.apply(using Random(seed))
 
@@ -72,23 +71,27 @@ def shuffle[T, C](xs: IterableOnce[T])(using BuildFrom[xs.type, T, C]): Gen[C] =
 def oneOf[A](xs: Seq[A]): Gen[A] = xs(between(0, xs.size))
 def listOf[A](gen: Gen[A], min: Int = 0, max: Int = 5): Gen[List[A]] = List.fill(between(min, max))(gen)
 
-trait Generator[T]:
+trait DerivedGen[T]:
   def apply(using random: Random): T
 
-inline given derivedProduct[T <: Product](using m: Mirror.ProductOf[T]): Generator[T] = new Generator[T]:
-  def apply(using r: Random): T = m.fromTuple(genTuple(summonAll[Tuple.Map[m.MirroredElemTypes, Generator]])(using r))
+object DerivedGen:
+  def derived[T: DerivedGen as gen]: DerivedGen[T] = gen
+  def apply[T: DerivedGen as gen]: T = Gen.apply(gen.apply)
 
-private def genTuple[T <: Tuple](gens: Tuple.Map[T, Generator]): Generator[T] = r ?=>
-  val gensList = gens.toList.asInstanceOf[List[Generator[Any]]]
+inline given derivedProduct[T <: Product](using m: Mirror.ProductOf[T]): DerivedGen[T] = new DerivedGen[T]:
+  def apply(using r: Random): T = m.fromTuple(genTuple(summonAll[Tuple.Map[m.MirroredElemTypes, DerivedGen]])(using r))
+
+private def genTuple[T <: Tuple](gens: Tuple.Map[T, DerivedGen]): DerivedGen[T] = r ?=>
+  val gensList = gens.toList.asInstanceOf[List[DerivedGen[Any]]]
   val list = gensList.map[Any](g => g(using r))
   Tuple.fromArray(list.toArray).asInstanceOf[T]
 
-inline given derivedSum[T](using m: Mirror.SumOf[T]): Generator[T] = new Generator[T]:
-  def apply(using r: Random): T = (oneOf(summonAll[Tuple.Map[m.MirroredElemTypes, Generator]].toList)(using r)).asInstanceOf[T]
+inline given derivedSum[T](using m: Mirror.SumOf[T]): DerivedGen[T] = new DerivedGen[T]:
+  def apply(using r: Random): T = (oneOf(summonAll[Tuple.Map[m.MirroredElemTypes, DerivedGen]].toList)(using r)).asInstanceOf[T]
 
-given [T: Gen as gen]: Generator[T] = r ?=> gen
+given [T: Gen as gen]: DerivedGen[T] = r ?=> gen
 
 given str: Gen[String] = r ?=> alphanumericString(between(1, 1000))
 
-given [T: Generator as gen]: Generator[Option[T]] = r ?=> option(gen(using r))
-given [T: Generator as gen]: Generator[List[T]] = r ?=> listOf(gen(using r))
+given [T: DerivedGen as gen]: DerivedGen[Option[T]] = r ?=> option(gen(using r))
+given [T: DerivedGen as gen]: DerivedGen[List[T]] = r ?=> listOf(gen(using r))
